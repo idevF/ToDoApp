@@ -24,6 +24,8 @@ struct ContentView: View {
                             .listRowSeparatorTint(.yellow)
                             .listRowBackground(Color.secondary)
                     }
+                    .onDelete(perform: deleteItem)
+                    .onMove(perform: moveItem)
                 } header: {
                     HStack {
                         Text("Business")
@@ -52,8 +54,26 @@ struct ContentView: View {
 
             }
             .listStyle(.sidebar)
-            .navigationTitle("ToDo's")
+            .navigationTitle("ToDo")
+            .navigationBarItems(leading: EditButton(),
+                                trailing:
+                                    NavigationLink("Add", destination: AddView())
+//                                    Button("Add") { addItem(name: "new") }
+            )
         }
+    }
+    
+    func deleteItem(indexSet: IndexSet) {
+        listItems.remove(atOffsets: indexSet)
+    }
+    
+    func moveItem(from: IndexSet, to: Int) {
+        listItems.move(fromOffsets: from, toOffset: to)
+    }
+    
+    func addItem(name: String) {
+        let newItem = ItemModel(name: name, isCompleted: false)
+        listItems.append(newItem)
     }
 }
 
