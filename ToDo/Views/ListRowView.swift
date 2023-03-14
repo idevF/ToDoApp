@@ -13,8 +13,8 @@ struct ListRowView: View {
     
     var body: some View {
         HStack {
-            Image(systemName: item.isCompleted ? "checkmark.square" : "square")
-                .foregroundColor(item.isCompleted ? .green : .red)
+            Image(systemName: item.isCompleted ? "checkmark.square.fill" : "square")
+                .foregroundColor(item.isCompleted ? .green : .yellow)
             Text(item.name)
             Spacer()
         }

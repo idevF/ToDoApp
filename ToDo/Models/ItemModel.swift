@@ -10,5 +10,5 @@ import Foundation
 struct ItemModel: Identifiable {
     let id: UUID = UUID()
     let name: String
-    let isCompleted: Bool
+    var isCompleted: Bool
 }
