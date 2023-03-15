@@ -86,9 +86,9 @@
 			isa = PBXGroup;
 			children = (
 				A26B2FCC29C0A741002AA6EC /* ToDoApp.swift */,
+				A236E13529C0BE2600A891EA /* Models */,
 				A224BF0229C0F7C9001DDCF8 /* ViewModels */,
 				A236E13629C0C3D400A891EA /* Views */,
-				A236E13529C0BE2600A891EA /* Models */,
 				A26B2FD029C0A741002AA6EC /* Assets.xcassets */,
 				A26B2FD229C0A741002AA6EC /* Preview Content */,
 			);

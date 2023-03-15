@@ -26,6 +26,8 @@ struct AddView: View {
                 .padding(.horizontal)
                 .background(Color.gray.opacity(0.3))
                 .cornerRadius(10)
+                .disableAutocorrection(true)
+
             
             Button {
                 saveNewItem()

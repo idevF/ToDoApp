@@ -16,10 +16,13 @@ struct ListRowView: View {
             Image(systemName: item.isCompleted ? "checkmark.square.fill" : "square")
                 .foregroundColor(item.isCompleted ? .green : .yellow)
             Text(item.name)
+                .opacity(item.isCompleted ? 0.3 : 1.0)
+                .strikethrough(item.isCompleted ? true : false, color: .red)
+                
             Spacer()
         }
         .font(.subheadline)
-        .fontWeight(.medium)
+        .fontWeight(.semibold)
         .padding(.vertical, 8)
     }
 }
