@@ -24,7 +24,7 @@ struct ListView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.gray.opacity(0.2)
+                Color(uiColor: .tertiarySystemBackground)
                     .ignoresSafeArea()
                 
                 if listViewModel.listItems.isEmpty {
@@ -59,9 +59,9 @@ struct ListView: View {
                             .font(.headline)
                             .foregroundColor(.accentColor)
                         }
-
                     }
                     .listStyle(.insetGrouped)
+                    .animation(.linear, value: toggleIsOn)
                 }
             }
             .navigationTitle("ToDo")
@@ -70,7 +70,6 @@ struct ListView: View {
                 leading: EditButton(),
                 trailing: NavigationLink("Add", destination: AddView())
             )
-            
         }
     }
 }

@@ -21,7 +21,7 @@ struct AddView: View {
     @State private var selectedDate: Date = Date()
     private let startingDate: Date = Calendar.current.startOfDay(for: Date())
 
-//    @State private var toggleIsOn: Bool = false
+    @State private var toggleIsOn: Bool = false
 //    @State var textBackgroundColor: Color = Color(uiColor: .systemGray4)
 
     
@@ -35,23 +35,29 @@ struct AddView: View {
                 .cornerRadius(10)
                 .disableAutocorrection(true)
 
-            DatePicker("Select Due Date", selection: $selectedDate, in: startingDate..., displayedComponents: [.date, .hourAndMinute])
-                .datePickerStyle(.compact)
-                .accentColor(Color.red)
-                .font(.headline)
-                .padding()
-                .background(Color(uiColor: .systemGray4))
-                .cornerRadius(10)
+            Toggle(isOn: $toggleIsOn) {
+                Text("Select a due date")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+            }
+            .tint(.accentColor)
+            .padding()
+            .background(Color(uiColor: .systemGray4))
+            .cornerRadius(10)
             
-//            Toggle(isOn: $toggleIsOn) {
-//                Text("Select a background color for date")
-//                    .font(.headline)
-//                    .fontWeight(.semibold)                    
-//            }
-//            .tint(.accentColor)
-//            .padding()
-//            .background(Color(uiColor: .systemGray4))
-//            .cornerRadius(10)
+            if toggleIsOn {
+                DatePicker("Due Date",
+                           selection: $selectedDate,
+                           in: startingDate...,
+                           displayedComponents: [.date, .hourAndMinute]
+                )
+                    .datePickerStyle(.compact)
+                    .accentColor(Color.red)
+                    .font(.headline)
+                    .padding()
+                    .background(Color(uiColor: .systemGray4))
+                    .cornerRadius(10)
+            }
             
 //            if toggleIsOn {
 //                ColorPicker("Background color", selection: $textBackgroundColor, supportsOpacity: true)
@@ -79,11 +85,13 @@ struct AddView: View {
         .padding()
         .navigationTitle("Add  🖊️")
         .alert(isPresented: $showAlert, content: getAlert)
+        .animation(.spring(response: 2), value: toggleIsOn)
     }
     
     private func saveNewItem() {
         if isValidNewItem() {
-            listViewModel.addItem(name: text, date: selectedDate)
+            listViewModel.addItem(name: text,
+                                  date: toggleIsOn ? selectedDate : Date.distantFuture)
             presentationMode.wrappedValue.dismiss()
         }
     }

@@ -25,10 +25,14 @@ struct ListRowView: View {
 
                 Text("Due: " + item.date.formatted(date: .long, time: .shortened))
                     .fontWeight(.light)
+                    .opacity(item.date == Date.distantFuture ? 0 : 1)
             }
             .font(.subheadline)
             .padding(10)
-            .background(item.date < Date() ? Color(uiColor: .systemRed).opacity(0.7) : textBackgroundColor)
+            .background(
+                item.date < Date.now ?
+                Color(uiColor: .systemRed).opacity(0.7) : textBackgroundColor
+            )
             .cornerRadius(10)
             .opacity(item.isCompleted ? 0.3 : 1.0)
             .strikethrough(item.isCompleted ? true : false, color: .red)
