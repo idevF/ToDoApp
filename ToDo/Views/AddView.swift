@@ -18,17 +18,50 @@ struct AddView: View {
     @State private var alertTitle: String = ""
     @State private var alertMessage: String = ""
     
+    @State private var selectedDate: Date = Date()
+    private let startingDate: Date = Calendar.current.startOfDay(for: Date())
+
+//    @State private var toggleIsOn: Bool = false
+//    @State var textBackgroundColor: Color = Color(uiColor: .systemGray4)
+
+    
     var body: some View {
-        VStack(spacing: 20.0) {
+        VStack(spacing: 30.0) {
             TextField("Enter here...", text: $text)
                 .font(.headline)
                 .frame(height: 55)
                 .padding(.horizontal)
-                .background(Color.gray.opacity(0.3))
+                .background(Color(uiColor: .systemGray4))
                 .cornerRadius(10)
                 .disableAutocorrection(true)
 
+            DatePicker("Select Due Date", selection: $selectedDate, in: startingDate..., displayedComponents: [.date, .hourAndMinute])
+                .datePickerStyle(.compact)
+                .accentColor(Color.red)
+                .font(.headline)
+                .padding()
+                .background(Color(uiColor: .systemGray4))
+                .cornerRadius(10)
             
+//            Toggle(isOn: $toggleIsOn) {
+//                Text("Select a background color for date")
+//                    .font(.headline)
+//                    .fontWeight(.semibold)                    
+//            }
+//            .tint(.accentColor)
+//            .padding()
+//            .background(Color(uiColor: .systemGray4))
+//            .cornerRadius(10)
+            
+//            if toggleIsOn {
+//                ColorPicker("Background color", selection: $textBackgroundColor, supportsOpacity: true)
+//                     .padding()
+//                     .background(Color.brown)
+//                     .cornerRadius(10)
+//                     .font(.headline)
+//                     .transition(AnyTransition.scale.animation(.linear(duration: 1.0)))
+//            }
+
             Button {
                 saveNewItem()
             } label: {
@@ -44,13 +77,13 @@ struct AddView: View {
             Spacer()
         }
         .padding()
-        .navigationTitle("Add new todo")
+        .navigationTitle("Add  🖊️")
         .alert(isPresented: $showAlert, content: getAlert)
     }
     
     private func saveNewItem() {
         if isValidNewItem() {
-            listViewModel.addItem(name: text)
+            listViewModel.addItem(name: text, date: selectedDate)
             presentationMode.wrappedValue.dismiss()
         }
     }
@@ -58,7 +91,7 @@ struct AddView: View {
     private func isValidNewItem() -> Bool {
         if text.count < 3 {
             alertTitle = "OOPPS! 😱"
-            alertMessage = "The new todo item must be at least 3 characters long!"
+            alertMessage = "The new text must be at least 3 characters long!"
             showAlert.toggle()
             return false
         }

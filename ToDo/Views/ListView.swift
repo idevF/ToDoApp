@@ -11,6 +11,16 @@ struct ListView: View {
     
     @EnvironmentObject private var listViewModel: ListViewModel
     
+    @State private var toggleIsOn: Bool = false
+    
+    private var filteredListITems: [ItemModel] {
+        listViewModel.listItems.filter { item in
+            (!toggleIsOn || !item.isCompleted)
+        }
+    }
+    
+    @State private var rowBackgroundColor: Color = Color(uiColor: .systemGray5)
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -22,10 +32,17 @@ struct ListView: View {
                 } else {
                     List {
                         Section {
-                            ForEach(listViewModel.listItems) { item in
+                            Toggle(isOn: $toggleIsOn) {
+                                Text("Hide Completed")
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                            }
+                            .tint(.accentColor)
+
+                            ForEach(filteredListITems) { item in
                                 ListRowView(item: item)
-                                    .listRowSeparatorTint(.yellow)
-                                    .listRowBackground(Color.gray.opacity(0.9))
+                                    .listRowSeparatorTint(.orange)
+                                    .listRowBackground(rowBackgroundColor)
                                     .onTapGesture {
                                         withAnimation(.easeInOut(duration: 0.7)) {
                                             listViewModel.updateItem(item: item)
@@ -36,32 +53,15 @@ struct ListView: View {
                             .onMove(perform: listViewModel.moveItem)
                         } header: {
                             HStack {
-                                Text("Business")
+                                Text("My list")
                                 Image(systemName: "briefcase.fill")
                             }
                             .font(.headline)
                             .foregroundColor(.accentColor)
                         }
-                        
-                        
-        //                Section {
-        //                    ForEach(listItems, id: \.self) { item in
-        //                        HStack {
-        //                            Image(systemName: "circle")
-        //                            Text(item)
-        //                        }
-        //                    }
-        //                } header: {
-        //                    HStack {
-        //                        Text("Personal")
-        //                        Image(systemName: "person.fill")
-        //                    }
-        //                    .font(.headline)
-        //                    .foregroundColor(.indigo)
-        //                }
 
                     }
-                    .listStyle(.sidebar)
+                    .listStyle(.insetGrouped)
                 }
             }
             .navigationTitle("ToDo")
