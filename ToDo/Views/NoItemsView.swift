@@ -10,7 +10,7 @@ import SwiftUI
 struct NoItemsView: View {
     
     @State private var isAnimated: Bool = false
-    let secondaryAccentColor = Color("SecondaryAccentColor")
+    private let secondaryAccentColor = Color("SecondaryAccentColor")
     
     var body: some View {
         VStack(alignment: .center, spacing: 20.0) {
@@ -25,27 +25,25 @@ struct NoItemsView: View {
                 Text("Press to add\n your first todo!\n 🥳")
                     .font(.headline)
                     .foregroundColor(.white)
-                    .frame(height: 100)
-                    .padding(.horizontal, isAnimated ? 20 : 80)
+                    .padding()
                     .background(isAnimated ? Color.accentColor : secondaryAccentColor)
                     .cornerRadius(10)
             }
-            .shadow(color: isAnimated ? secondaryAccentColor : Color.accentColor,
-                    radius: isAnimated ? 80 : 20)
-            .scaleEffect(isAnimated ? 1.3 : 1.0)
-            .offset(y: isAnimated ? -10 : 0)
+            .rotationEffect(Angle(degrees: isAnimated ? 360 : 0), anchor: .bottom)
+            .animation(.spring(response: 1.7, dampingFraction: 0.5).repeatForever(), value: isAnimated)
+            .scaleEffect(isAnimated ? 1.5 : 1.0)
             
             Spacer()
         }
         .multilineTextAlignment(.center)
-        .padding(30)
+        .padding(40)
         .onAppear(perform: startAnimation)
     }
     
     func startAnimation() {
         guard !isAnimated else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            withAnimation(Animation.easeInOut(duration: 2.5).repeatForever()) {
+            withAnimation(Animation.easeInOut(duration: 1.0).repeatForever()) {
                 isAnimated.toggle()
             }
         }

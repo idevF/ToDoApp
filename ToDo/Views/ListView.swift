@@ -24,9 +24,6 @@ struct ListView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(uiColor: .tertiarySystemBackground)
-                    .ignoresSafeArea()
-                
                 if listViewModel.listItems.isEmpty {
                     NoItemsView()
                 } else {
@@ -41,7 +38,7 @@ struct ListView: View {
 
                             ForEach(filteredListITems) { item in
                                 ListRowView(item: item)
-                                    .listRowSeparatorTint(.orange)
+                                    .listRowSeparatorTint(Color(uiColor: .systemOrange))
                                     .listRowBackground(rowBackgroundColor)
                                     .onTapGesture {
                                         withAnimation(.easeInOut(duration: 0.7)) {
@@ -61,7 +58,7 @@ struct ListView: View {
                         }
                     }
                     .listStyle(.insetGrouped)
-                    .animation(.linear, value: toggleIsOn)
+                    .animation(.default, value: toggleIsOn)
                 }
             }
             .navigationTitle("ToDo")

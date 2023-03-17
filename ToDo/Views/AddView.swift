@@ -22,9 +22,7 @@ struct AddView: View {
     private let startingDate: Date = Calendar.current.startOfDay(for: Date())
 
     @State private var toggleIsOn: Bool = false
-//    @State var textBackgroundColor: Color = Color(uiColor: .systemGray4)
 
-    
     var body: some View {
         VStack(spacing: 30.0) {
             TextField("Enter here...", text: $text)
@@ -58,15 +56,6 @@ struct AddView: View {
                     .background(Color(uiColor: .systemGray4))
                     .cornerRadius(10)
             }
-            
-//            if toggleIsOn {
-//                ColorPicker("Background color", selection: $textBackgroundColor, supportsOpacity: true)
-//                     .padding()
-//                     .background(Color.brown)
-//                     .cornerRadius(10)
-//                     .font(.headline)
-//                     .transition(AnyTransition.scale.animation(.linear(duration: 1.0)))
-//            }
 
             Button {
                 saveNewItem()
@@ -85,7 +74,7 @@ struct AddView: View {
         .padding()
         .navigationTitle("Add  🖊️")
         .alert(isPresented: $showAlert, content: getAlert)
-        .animation(.spring(response: 2), value: toggleIsOn)
+        .animation(.interactiveSpring(response: 1.5), value: toggleIsOn)
     }
     
     private func saveNewItem() {
