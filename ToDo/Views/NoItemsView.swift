@@ -30,6 +30,7 @@ struct NoItemsView: View {
                     .cornerRadius(10)
             }
             .rotationEffect(Angle(degrees: isAnimated ? 360 : 0), anchor: .bottom)
+            // This animation applied to rotation effect.
             .animation(.spring(response: 1.7, dampingFraction: 0.5).repeatForever(), value: isAnimated)
             .scaleEffect(isAnimated ? 1.5 : 1.0)
             
@@ -40,6 +41,10 @@ struct NoItemsView: View {
         .onAppear(perform: startAnimation)
     }
     
+    /// Starts an animation with a delay.
+    ///
+    /// This function starts an animation that this defined with DispatchQueue. And toggles isAnimated Boolean.
+    /// 
     func startAnimation() {
         guard !isAnimated else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

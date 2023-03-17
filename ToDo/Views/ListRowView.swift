@@ -15,15 +15,17 @@ struct ListRowView: View {
     
     var body: some View {
         HStack(alignment: .top) {
+            // checkmark stack
             Image(systemName: item.isCompleted ? "checkmark.square.fill" : "square")
                 .foregroundColor(item.isCompleted ? Color(uiColor: .systemGreen) : Color(uiColor: .systemOrange))
                 .font(.headline)
                 .padding(.vertical, 10)
                 .padding(.horizontal, 5)
-
+            
+            // text and due date stack
             VStack(alignment: .leading, spacing: 8.0) {
                 Text(item.name)
-
+                
                 Text("Due: " + item.date.formatted(date: .long, time: .shortened))
                     .fontWeight(.light)
                     .opacity(item.date == Date.distantFuture ? 0 : 1)
@@ -31,6 +33,7 @@ struct ListRowView: View {
             .frame(maxWidth: .infinity)
             .font(.subheadline)
             .padding(10)
+            // if the date is due, changes the background color to red
             .background(
                 item.date < Date.now ?
                 Color(uiColor: .systemRed).opacity(0.6) : textBackgroundColor
