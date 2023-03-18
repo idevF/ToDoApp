@@ -11,7 +11,7 @@ struct ListRowView: View {
     
     let item: ItemModel
     
-    @State private var textBackgroundColor: Color = Color(uiColor: .systemGray4)
+    @State var textBackgroundColor: Color = Color(uiColor: .systemGray4)
     
     var body: some View {
         HStack(alignment: .top) {
@@ -33,20 +33,31 @@ struct ListRowView: View {
             .frame(maxWidth: .infinity)
             .font(.subheadline)
             .padding(10)
-            // if the date is due, changes the background color to red
             .background(
-                item.date < Date.now ?
-                Color(uiColor: .systemRed).opacity(0.6) : textBackgroundColor
+                textBackgroundColor
             )
             .cornerRadius(10)
             .shadow(color: Color(uiColor: .systemGray), radius: 3)
             .opacity(item.isCompleted ? 0.3 : 1.0)
             .strikethrough(item.isCompleted ? true : false, color: .red)
-            
             Spacer()
         }
         .fontWeight(.semibold)
         .padding(.vertical, 8)
+        // if the date is due, changes the background color to red
+        .onAppear(perform: dueDateTextBanckgroundColor)
+    }
+    
+    /// Changes the item text background color.
+    ///
+    /// This function compares item's due date with current date. If the item date is due, it changes text background color to red.
+    ///
+    func dueDateTextBanckgroundColor() {
+        if item.date <= Date() {
+            textBackgroundColor = Color(uiColor: .systemRed).opacity(0.6)
+        } else {
+            textBackgroundColor = Color(uiColor: .systemGray4)
+        }
     }
 }
 
