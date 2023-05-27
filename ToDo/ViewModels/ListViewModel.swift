@@ -57,8 +57,8 @@ final class ListViewModel: ObservableObject {
     ///
     /// This function adds a new item by appending it to  the listItems array.
     ///
-    func addItem(name: String, date: Date) {
-        let newItem = ItemModel(name: name, isCompleted: false, date: date)
+    func addItem(name: String) {
+        let newItem = ItemModel(name: name, isCompleted: false)
         listItems.append(newItem)
     }
     

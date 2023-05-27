@@ -25,10 +25,6 @@ struct ListRowView: View {
             // text and due date stack
             VStack(alignment: .leading, spacing: 8.0) {
                 Text(item.name)
-                
-                Text("Due: " + item.date.formatted(date: .long, time: .shortened))
-                    .fontWeight(.light)
-                    .opacity(item.date == Date.distantFuture ? 0 : 1)
             }
             .frame(maxWidth: .infinity)
             .font(.subheadline)
@@ -44,20 +40,6 @@ struct ListRowView: View {
         }
         .fontWeight(.semibold)
         .padding(.vertical, 8)
-        // if the date is due, changes the background color to red
-        .onAppear(perform: dueDateTextBanckgroundColor)
-    }
-    
-    /// Changes the item text background color.
-    ///
-    /// This function compares item's due date with current date. If the item date is due, it changes text background color to red.
-    ///
-    func dueDateTextBanckgroundColor() {
-        if item.date <= Date() {
-            textBackgroundColor = Color(uiColor: .systemRed).opacity(0.6)
-        } else {
-            textBackgroundColor = Color(uiColor: .systemGray4)
-        }
     }
 }
 

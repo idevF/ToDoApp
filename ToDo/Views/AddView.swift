@@ -23,10 +23,6 @@ struct AddView: View {
     @State private var showAlert: Bool = false
     @State private var alertTitle: String = ""
     @State private var alertMessage: String = ""
-    
-    // for the date picker
-    @State private var selectedDate: Date = Date()
-    private let startingDate: Date = Calendar.current.startOfDay(for: Date())
 
     @State private var toggleIsOn: Bool = false
 
@@ -36,13 +32,6 @@ struct AddView: View {
         VStack(spacing: 30.0) {
             
             addItemTextfield
-
-            dueDateSelectionButton
-            
-            // shows date picker if the toggle button is on
-            if toggleIsOn {
-                dueDatePicker
-            }
 
             saveButton
             
@@ -80,32 +69,6 @@ extension AddView {
             .disableAutocorrection(true)
     }
     
-    private var dueDateSelectionButton: some View {
-        Toggle(isOn: $toggleIsOn) {
-            Text("Select a due date")
-                .font(.headline)
-                .fontWeight(.semibold)
-        }
-        .tint(.accentColor)
-        .padding()
-        .background(Color(uiColor: .systemGray4))
-        .cornerRadius(10)
-    }
-    
-    private var dueDatePicker: some View {
-        DatePicker("Due Date",
-                   selection: $selectedDate,
-                   in: startingDate...,
-                   displayedComponents: [.date, .hourAndMinute]
-        )
-            .datePickerStyle(.compact)
-            .accentColor(Color.red)
-            .font(.headline)
-            .padding()
-            .background(Color(uiColor: .systemGray4))
-            .cornerRadius(10)
-    }
-    
     /// This button saves the entered data and returns to ListView.
     private var saveButton: some View {
         Button {
@@ -133,8 +96,7 @@ extension AddView {
     ///
     private func saveNewItem() {
         if isValidNewItem() {
-            listViewModel.addItem(name: text,
-                                  date: toggleIsOn ? selectedDate : Date.distantFuture)
+            listViewModel.addItem(name: text)
             // dismiss from AddView
             presentationMode.wrappedValue.dismiss()
         }

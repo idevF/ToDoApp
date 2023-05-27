@@ -11,13 +11,10 @@ struct ItemModel: Identifiable, Codable {
     let id: UUID
     let name: String
     var isCompleted: Bool
-    let date: Date
     
-    init(id: UUID = UUID(), name: String, isCompleted: Bool, date: Date = Date()) {
+    init(id: UUID = UUID(), name: String, isCompleted: Bool) {
         self.id = id
         self.name = name
         self.isCompleted = isCompleted
-        self.date = date
     }
-    
 }
