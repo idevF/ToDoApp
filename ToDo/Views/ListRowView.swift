@@ -11,43 +11,32 @@ struct ListRowView: View {
     
     let item: ItemModel
     
-    @State var textBackgroundColor: Color = Color(uiColor: .systemGray4)
+    @State var textBackgroundColor: Color = Color(uiColor: .systemGray5)
     
     var body: some View {
-        HStack(alignment: .top) {
-            // checkmark stack
+        HStack(alignment: .center) {
             Image(systemName: item.isCompleted ? "checkmark.square.fill" : "square")
                 .foregroundColor(item.isCompleted ? Color(uiColor: .systemGreen) : Color(uiColor: .systemOrange))
-                .font(.headline)
-                .padding(.vertical, 10)
-                .padding(.horizontal, 5)
+                .padding(.leading)
             
-            // text and due date stack
-            VStack(alignment: .leading, spacing: 8.0) {
-                Text(item.name)
-            }
-            .frame(maxWidth: .infinity)
-            .font(.subheadline)
-            .padding(10)
-            .background(
-                textBackgroundColor
-            )
-            .cornerRadius(10)
-            .shadow(color: Color(uiColor: .systemGray), radius: 3)
-            .opacity(item.isCompleted ? 0.3 : 1.0)
-            .strikethrough(item.isCompleted ? true : false, color: .red)
-            Spacer()
+            Text(item.name)
+                .padding(.vertical)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .strikethrough(item.isCompleted ? true : false, color: .red)
         }
-        .fontWeight(.semibold)
-        .padding(.vertical, 8)
+        .font(.headline)
+        .background(textBackgroundColor)
+        .cornerRadius(10)
+        .shadow(color: Color(uiColor: .systemGray), radius: 3)
+        .opacity(item.isCompleted ? 0.5 : 1.0)
     }
 }
 
 struct ListRowView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            ListRowView(item: ItemModel(name: "first", isCompleted: false))
-            ListRowView(item: ItemModel(name: "second", isCompleted: true))
+            ListRowView(item: ItemModel(name: "first", isCompleted: false)).padding()
+            ListRowView(item: ItemModel(name: "second", isCompleted: true)).padding()
         }
     }
 }

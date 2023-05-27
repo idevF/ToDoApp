@@ -22,35 +22,23 @@ struct ListView: View {
         }
     }
 
-    
     // MARK: BODY
     
     var body: some View {
-        NavigationView {
-            ZStack {
+        NavigationStack {
+            VStack {
                 // If the list is Empty, NoItemsView appears
                 if listViewModel.listItems.isEmpty {
                     NoItemsView()
                 
                 // else the item List appears
                 } else {
-                    List {
-                        Section {
-                            // hides and shows completed items
-                            toggleButton
-                            
-                            // list of items
-                            itemList
-                        } header: {
-                            sectionHeader
-                        }
-                    }
-                    .listStyle(.insetGrouped)
-                    .animation(.default, value: toggleIsOn)
+                    // hides and shows completed items
+                    toggleButton
+                    myListViewSection
                 }
             }
             .navigationTitle("ToDo")
-            .navigationViewStyle(.stack) // for iPad
             .navigationBarItems(
                 leading: EditButton(),
                 trailing: NavigationLink("Add", destination: AddView())
@@ -73,20 +61,32 @@ struct ContentView_Previews: PreviewProvider {
 extension ListView {
     // toggle button to select hide or show completed items
     private var toggleButton: some View {
-        Toggle(isOn: $toggleIsOn) {
-            Text("Hide Completed")
+        Toggle(isOn: $toggleIsOn.animation()) {
+            Text("Hide completed")
                 .font(.subheadline)
                 .fontWeight(.semibold)
         }
         .tint(.accentColor)
+        .padding(.horizontal)
+    }
+    
+    private var myListViewSection: some View {
+        List {
+            Section {
+                itemList
+            } header: {
+                sectionHeader
+            }
+            .listSectionSeparator(.visible)
+        }
+        .listStyle(.plain)
     }
     
     /// This is the layer that shows items depending on the logic of filtered list computed property
     private var itemList: some View {
         ForEach(filteredListITems) { item in
             ListRowView(item: item)
-                .listRowSeparatorTint(Color(uiColor: .systemOrange))
-                .listRowBackground(Color(uiColor: .systemGray5))
+                .listRowSeparator(.hidden)
                 .onTapGesture {
                     withAnimation(.easeInOut(duration: 0.7)) {
                         listViewModel.updateItem(item: item)

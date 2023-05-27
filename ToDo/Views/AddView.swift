@@ -14,7 +14,7 @@ struct AddView: View {
     @EnvironmentObject private var listViewModel: ListViewModel
     
     // for dismiss from AddView
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) private var dismiss
     
     // for the textfield
     @State private var text: String = ""
@@ -64,7 +64,7 @@ extension AddView {
             .font(.headline)
             .frame(height: 55)
             .padding(.horizontal)
-            .background(Color(uiColor: .systemGray4))
+            .background(Color(uiColor: .systemGray5))
             .cornerRadius(10)
             .disableAutocorrection(true)
     }
@@ -82,6 +82,7 @@ extension AddView {
                 .background(Color.accentColor)
                 .cornerRadius(10)
         }
+        .disabled(text.isEmpty)
     }
 }
 
@@ -98,7 +99,7 @@ extension AddView {
         if isValidNewItem() {
             listViewModel.addItem(name: text)
             // dismiss from AddView
-            presentationMode.wrappedValue.dismiss()
+            dismiss()
         }
     }
     
